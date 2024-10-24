@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Repositories\CategoryRepository;
 use App\Repositories\Interfaces\ICategoryRepository;
+use App\Repositories\Interfaces\IListRepository;
+use App\Repositories\ListRepository;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryLayerProvider extends ServiceProvider
@@ -14,6 +16,7 @@ class RepositoryLayerProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(ICategoryRepository::class, CategoryRepository::class);
+        $this->app->bind(IListRepository::class, ListRepository::class);
     }
 
     /**

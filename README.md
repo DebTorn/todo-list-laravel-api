@@ -25,11 +25,10 @@
     - :bulb: Get a specific `category` by `id`
 - **List**:
     - :bulb: Add `list` in a `category`
-    - :bulb: Archive `list` in  a `category`
     - :bulb: Remove `list` from a `category`
     - :bulb: Update `list` in a `category`
     - :bulb: Get all `list` from a specific `category`
-    - :bulb: Get a specific `list` by `id` from a specific `category`
+    - :bulb: Get a specific `list` by `id`
 - **Item**:
     - :bulb: Add `item` to a `list`
     - :bulb: Remove `item` from a `list`
@@ -164,7 +163,7 @@ Returns all category or a specific one by ID
 
 **Category found**
 *Request URI*: `/api/category/2`
-*Response Status*: `500`
+*Response Status*: `200`
 *Response Body*: 
 ```json
 {
@@ -178,7 +177,7 @@ Returns all category or a specific one by ID
 
 **Category not found**
 *Request URI*: `/api/category/1`
-*Response Status*: `500`
+*Response Status*: `404`
 *Response Body*: 
 ```json
 {
@@ -320,3 +319,173 @@ If you want to delete a category, then you need to extends the `request body` wi
 ---
 ### Lists
 
+#### Get Lists
+Returns all lists of the logged in user
+
+*Type*: **GET**
+*URI*: `/api/lists`
+*Response format*: `JSON`
+*URL parameters*:
+| Parameter | Type | Description |
+| --------- | ---- | ----------- |
+| id | integer (optional) | If you want to get a specific list by ID |
+
+*Query parameters*:
+| Parameter | Type | Description |
+| --------- | ---- | ----------- |
+| category_id | integer (optional) | ID of an existing category |
+
+**Lists found**
+*Request URI*: `/api/lists`
+*Response Status*: `200`
+*Response Body*: 
+```json
+{
+	"message": "The lists fetched successfully",
+	"lists": [
+		{
+			"id": 2,
+			"title": "Teszt list #1",
+			"description": "Test description",
+			"is_completed": 0,
+			"completed_at": null,
+			"due_date": null,
+			"category": {
+				"id": 1,
+				"title": "test3"
+			}
+		},
+		{
+			"id": 3,
+			"title": "Untitled",
+			"description": "Test description",
+			"is_completed": 0,
+			"completed_at": null,
+			"due_date": null,
+			"category": {
+				"id": 1,
+				"title": "test3"
+			}
+		}
+	]
+}
+```
+
+**Empty lists**
+*Request URI*: `/api/lists`
+*Response Status*: `200`
+*Response Body*: 
+```json
+{
+	"message": "The lists fetched successfully",
+	"categories": []
+}
+```
+
+**List found**
+*Request URI*: `/api/lists/2`
+*Response Status*: `200`
+*Response Body*: 
+```json
+{
+	"message": "The list fetched successfully",
+	"lists": {
+		"id": 2,
+		"category_id": 1,
+		"title": "Test list #1",
+		"description": "Test description",
+		"is_completed": 0,
+		"completed_at": null,
+		"due_date": null
+	}
+}
+```
+
+**List not found**
+*Request URI*: `/api/lists/1`
+*Response Status*: `404`
+*Response Body*: 
+```json
+{
+	"message": "The list with the specified ID was not found."
+}
+```
+
+#### Insert new list
+Insert new list to the logged in user
+
+*Type*: **PUT**
+*URI*: `/api/lists`
+*Request format:* `JSON`
+*Response format*: `JSON`
+*Request body:*
+```json
+{
+	"title": "<string>",
+	"description": "<string>",
+	"category_id": <integer>
+}
+```
+
+**List inserted succesfully**
+*Request URI*: `/api/lists`
+*Response Status*: `201`
+*Request Body*:
+```json
+{
+	"title": "asd",
+	"description": "Test description",
+	"category_id": 1
+}
+```
+*Response Body*: 
+```json
+{
+	"message": "The list was created successfully",
+	"inserted_list": {
+		"id": 15,
+		"title": "asd",
+		"description": "Test description",
+		"is_completed": 0,
+		"completed_at": null,
+		"due_date": null,
+		"category": {
+			"id": 1,
+			"title": "test3"
+		}
+	}
+}
+```
+
+#### Delete existing list
+Deletes a list of the logged in user
+
+*Type*: **DELETE**
+*URI*: `/api/lists/{id}`
+*Request format:* `JSON`
+*Response format*: `JSON`
+*URL parameters*:
+| Parameter | Type | Description |
+| --------- | ---- | ----------- |
+| id | integer (optional) | ID of the list |
+
+**List deleted succesfully**
+*Request URI*: `/api/lists/1`
+*Response Status*: `200`
+
+```json
+{
+	"message": "The list deleted successfully",
+	"deleted_list": 1
+}
+```
+
+**List not found**
+*Request URI*: `/api/lists/2`
+*Response Status*: `201`
+
+```json
+{
+	"message": "The list with the specified ID was not found."
+}
+```
