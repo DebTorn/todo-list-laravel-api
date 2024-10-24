@@ -79,7 +79,7 @@ A default user has been added to the system. See `database/DatabaseSeeder.php`.
 
 ---
 
-## Status codes
+## 🧮 Status codes 🧮
 
 | Status Code | Description |
 | :--- | :--- |
@@ -105,7 +105,7 @@ The header's `Content-type` parameter is mostly `application/json`. If it's not,
 
 ---
 
-## Endpoints
+## 👆 Endpoints 👇
 
 ### Categories
 
