@@ -56,14 +56,14 @@ class CategoryController extends Controller implements HasMiddleware
             ], 200);
         } catch (\InvalidArgumentException $e) {
 
-            Log::error($e->getMessage());
+            Log::error($e);
             return response()->json(['message' => "The processing of the arguments was unsuccessful."], 500);
         } catch (HttpException $e) {
-            Log::error($e->getMessage());
+            Log::error($e);
             return response()->json(['message' => $e->getMessage()], 500);
         } catch (\Exception $e) {
 
-            Log::error($e->getMessage());
+            Log::error($e);
             return response()->json(['message' => "An error occurred while processing the request."], 500);
         }
     }
@@ -88,15 +88,15 @@ class CategoryController extends Controller implements HasMiddleware
             ], 201);
         } catch (\InvalidArgumentException $e) {
 
-            Log::error($e->getMessage());
+            Log::error($e);
             return response()->json(['message' => "The processing of the arguments was unsuccessful."], 500);
         } catch (HttpException $e) {
 
-            Log::error($e->getMessage());
+            Log::error($e);
             return response()->json(['message' => $e->getMessage()], 500);
         } catch (\Exception $e) {
 
-            Log::error($e->getMessage());
+            Log::error($e);
             return response()->json(['message' => "An error occurred while processing the request."], 500);
         }
     }
@@ -121,15 +121,15 @@ class CategoryController extends Controller implements HasMiddleware
             ], 200);
         } catch (\InvalidArgumentException $e) {
 
-            Log::error($e->getMessage());
+            Log::error($e);
             return response()->json(['message' => "The processing of the arguments was unsuccessful."], 500);
         } catch (HttpException $e) {
 
-            Log::error($e->getMessage());
+            Log::error($e);
             return response()->json(['message' => $e->getMessage()], 500);
         } catch (\Exception $e) {
 
-            Log::error($e->getMessage());
+            Log::error($e);
             return response()->json(['message' => "An error occurred while processing the request."], 500);
         }
     }

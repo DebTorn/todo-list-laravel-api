@@ -23,7 +23,7 @@ class DeleteCategoryRequest extends FormRequest
     {
         return [
             'id' => 'integer|required|exists:categories,id',
-            'title' => 'string|required|max:255|exists:categories,title'
+            'title' => 'string|required|max:255'
         ];
     }
 }
