@@ -45,7 +45,7 @@ A default user has been added to the system. See `database/DatabaseSeeder.php`.
 
 ## 💾 Installation 💾
 
-Before the project installation you need to install `laravel sail` https://laravel.com/docs/11.x/sail
+If you don't know how  `laravel sail` work, then feel free to check it in `laravel documentation` at the following link: https://laravel.com/docs/11.x/sail
 
 1. Create `.env` file based on `.env.example`. Pay close attention to the instructions which marked with **"TODO"**!
 
