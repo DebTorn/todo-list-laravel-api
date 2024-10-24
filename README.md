@@ -4,19 +4,6 @@
 
 ---
 
-## Table of contents
--   [Authentication](#authentication)
--   [Installation](#installation)
--   [Status codes](#status-codes)
--   [Header requirements](#header-requirements)
--   [Endpoints](#endpoints)
-    -   [Categories](#categories)
-    -   [Lists](#lists)
-    -   [Items](#items)
-    -   [Sub-Items](#sub-items)
-
----
-
 ## :rocket: Features :rocket:
 - **Category**:
     - :bulb: Add list category
@@ -42,7 +29,7 @@
 
 ---
 
-## Authentication
+## 🗝️ Authentication 🗝️
 
 The authentication is based on Bearer JWT tokens. A middleware is applied to every modifying operation to prevent unauthorized changes.
 
@@ -50,7 +37,7 @@ A default user has been added to the system. See `database/DatabaseSeeder.php`.
 
 ---
 
-## Installation
+## 💾 Installation 💾
 
 1. Create `.env` file based on `.env.example`. Pay close attention to the instructions which marked with **"TODO"**!
 
@@ -105,7 +92,7 @@ A default user has been added to the system. See `database/DatabaseSeeder.php`.
 
 ---
 
-## Header requirements
+## 🤕 Header requirements 🤕
 
 The following informations must also be sent in the header:
 
