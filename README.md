@@ -21,7 +21,6 @@
     - :bulb: Remove `item` from a `list`
     - :bulb: Get all `item` from a `list`
     - :bulb: Get a specific `item` by `id` from a specific `list`
-    - :bulb: Upload `item` banner
 - **Sub-item**:
     - :bulb: Add `sub-item` to an `item`
     - :bulb: Remove `sub-item` from an `item`
