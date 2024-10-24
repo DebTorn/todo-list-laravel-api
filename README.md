@@ -5,10 +5,15 @@
 ---
 
 ## Table of contents
+-   [Authentication](#authentication)
 -   [Installation](#installation)
 -   [Status codes](#status-codes)
 -   [Header requirements](#header-requirements)
 -   [Endpoints](#endpoints)
+    -   [Categories](#categories)
+    -   [Lists](#lists)
+    -   [Items](#items)
+    -   [Sub-Items](#sub-items)
 
 ---
 
@@ -38,6 +43,14 @@
 
 ---
 
+## Authentication
+
+The authentication is based on Bearer JWT tokens. A middleware is applied to every modifying operation to prevent unauthorized changes.
+
+A default user has been added to the system. See `database/DatabaseSeeder.php`.
+
+---
+
 ## Installation
 
 1. Create `.env` file based on `.env.example`. Pay close attention to the instructions which marked with **"TODO"**!
@@ -57,17 +70,22 @@
      composer install
     ```
 
-5. Run  `migrations` with artisan in the `container` shell:
-    ```batch
-    php artisan migrate
-    ```
-
-6. Generate `app-key` with `artisan` keygen within `container` shell:
+5. Generate `app-key` with `artisan` keygen within `container` shell:
     ```batch
     php artisan key:generate
     ```
 
-7. Regenerate `container` in the base shell:
+6. Generate `jwt-secret` with `artisan` jwt generator within `container` shell:
+    ```batch
+    php artisan jwt:secret
+    ```
+
+7. Run  `migrations` with seeder in the `container` shell:
+    ```batch
+    php artisan migrate:fresh --seed
+    ```
+
+8. Regenerate `container` in the base shell:
     ```batch
     ./vendor/bin/sail down
     ./vendor/bin/sail up -d --build
@@ -103,7 +121,9 @@ The header's `Content-type` parameter is mostly `application/json`. If it's not,
 
 ## Endpoints
 
-### Get Categories
+### Categories
+
+#### Get Categories
 
 Returns all category or a specific one by ID
 
@@ -166,7 +186,7 @@ Returns all category or a specific one by ID
 }
 ```
 
-### Insert new category
+#### Insert new category
 
 Insert new category to the database
 
@@ -222,7 +242,7 @@ Insert new category to the database
 }
 ```
 
-### Delete existing category
+#### Delete existing category
 
 Remove an existing category from database.
 
@@ -297,3 +317,6 @@ If you want to delete a category, then you need to extends the `request body` wi
 	"message": "The category with the specified ID was not found."
 }
 ```
+---
+### Lists
+

@@ -8,9 +8,18 @@ use App\Services\Interfaces\ICategoryService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Routing\Controllers\HasMiddleware;
 
-class CategoryController extends Controller
+class CategoryController extends Controller implements HasMiddleware
 {
+
+    public static function middleware(): array
+    {
+        return [
+            new Middleware(middleware: 'auth:api', except: ['index']),
+        ];
+    }
 
     public function __construct(
         private ICategoryService $categoryService
