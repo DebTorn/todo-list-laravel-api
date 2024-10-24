@@ -8,6 +8,7 @@
 - Extended `README` with `jwt keygen`
 - Added `list` endpoints
 - Extended `list` endpoints with `jwt auth`
+- Added `redis based` countdown and try check
 
 ## 2024. 10. 23
 ### @tbence

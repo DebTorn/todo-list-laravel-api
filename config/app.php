@@ -123,4 +123,7 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'title_check_cooldown' => env('TITLE_CHECK_COOLDOWN', "30"),
+    'title_check_max_try' => env('TITLE_CHECK_MAX_TRY', "2"),
+
 ];
