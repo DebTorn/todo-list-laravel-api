@@ -5,7 +5,9 @@
 - Added `JWT authentication`
 - Added `uuid` to users
 - Added `middleware protection` to `CategoryController`
-- Extend `README` with `jwt keygen`
+- Extended `README` with `jwt keygen`
+- Added `list` endpoints
+- Extended `list` endpoints with `jwt auth`
 
 ## 2024. 10. 23
 ### @tbence

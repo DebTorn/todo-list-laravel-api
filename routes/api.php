@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ListController;
 use Illuminate\Support\Facades\Route;
 
 //region Auth
@@ -29,4 +30,15 @@ Route::group([
     Route::delete('/', [CategoryController::class, 'destroy']);
 });
 
+//endregion
+
+//region List
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'lists'
+], function ($router) {
+    Route::get('/{id?}', [ListController::class, 'index']);
+    Route::put('/', [ListController::class, 'store']);
+    Route::delete('/{id}', [ListController::class, 'destroy']);
+});
 //endregion

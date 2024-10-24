@@ -6,26 +6,33 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Category extends Model
+class TodoList extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'categories';
+    protected $table = 'lists';
 
     protected $fillable = [
-        'title'
+        'title',
+        'user_id',
+        'category_id',
+        'description',
+        'is_completed',
+        'completed_at',
+        'due_date'
     ];
 
     protected $hidden = [
         'created_at',
         'updated_at',
-        'deleted_at'
+        'deleted_at',
+        'user_id'
     ];
 
     public $timestamps = true;
 
-    public function lists()
+    public function category()
     {
-        return $this->hasMany(TodoList::class);
+        return $this->belongsTo(Category::class);
     }
 }
