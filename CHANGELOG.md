@@ -1,5 +1,12 @@
 # Todo-list CHANGELOG
 
+## 2024. 10. 24
+### @tbence
+- Added `JWT authentication`
+- Added `uuid` to users
+- Added `middleware protection` to `CategoryController`
+- Extend `README` with `jwt keygen`
+
 ## 2024. 10. 23
 ### @tbence
 - Added `category` endpoints (index, store, delete)
