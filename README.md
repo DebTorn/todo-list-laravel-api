@@ -1,6 +1,6 @@
 # :page_facing_up: Todo-list API in Laravel :page_facing_up:
 
-[![Tech stack](https://skillicons.dev/icons?i=php,laravel,mysql,redis,docker)](https://skillicons.dev)
+[![Tech stack](https://skillicons.dev/icons?i=php,laravel,mysql,redis,docker,google)](https://skillicons.dev)
 
 ---
 
