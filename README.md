@@ -21,11 +21,17 @@
     - :bulb: Remove `item` from a `list`
     - :bulb: Get all `item` from a `list`
     - :bulb: Get a specific `item` by `id` from a specific `list`
+    - :bulb: Upload `item` banner
 - **Sub-item**:
     - :bulb: Add `sub-item` to an `item`
     - :bulb: Remove `sub-item` from an `item`
     - :bulb: Get all `sub-item` from an `item`
     - :bulb: Get `sub-item` by `id` from a specific `item`
+- **Images**:
+    - :bulb: Upload `list` background
+    - :bulb: Remove `list` background
+    - :bulb: Upload `item` banner
+    - :bulb: Remove `item` banner
 
 ---
 
