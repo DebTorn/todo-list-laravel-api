@@ -48,37 +48,39 @@ If you don't know how  `laravel sail` work, then feel free to check it in `larav
 
 1. Create `.env` file based on `.env.example`. Pay close attention to the instructions which marked with **"TODO"**!
 
-2. Start `sail` docker containers with the following command:
+2. Run `composer install` in the base folder
+
+3. Start `sail` docker containers with the following command:
     ```batch
     ./vendor/bin/sail up -d --build
     ```
 
-3. Jump into `container` shell:
+4. Jump into `container` shell:
     ```batch
     docker exec -it todo-list-todo-app-1 /bin/bash
     ```
 
-4. Install `composer` packages within the `container`:
+5. Install `composer` packages within the `container`:
     ```batch
      composer install
     ```
 
-5. Generate `app-key` with `artisan` keygen within `container` shell:
+6. Generate `app-key` with `artisan` keygen within `container` shell:
     ```batch
     php artisan key:generate
     ```
 
-6. Generate `jwt-secret` with `artisan` jwt generator within `container` shell:
+7. Generate `jwt-secret` with `artisan` jwt generator within `container` shell:
     ```batch
     php artisan jwt:secret
     ```
 
-7. Run  `migrations` with seeder in the `container` shell:
+8. Run  `migrations` with seeder in the `container` shell:
     ```batch
     php artisan migrate:fresh --seed
     ```
 
-8. Regenerate `container` in the base shell:
+9. Regenerate `container` in the base shell:
     ```batch
     ./vendor/bin/sail down
     ./vendor/bin/sail up -d --build
