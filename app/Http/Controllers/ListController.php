@@ -25,6 +25,14 @@ class ListController extends Controller implements HasMiddleware
         private IListService $listService
     ) {}
 
+    /**
+     * Get all lists or a list by id
+     *
+     * @param Request $request
+     * @param int $id
+     *
+     * @return JsonResponse
+     */
     public function index(Request $request, int $id = null)
     {
         try {
@@ -67,6 +75,13 @@ class ListController extends Controller implements HasMiddleware
         }
     }
 
+    /**
+     * Create a new list
+     *
+     * @param StoreListRequest $request
+     *
+     * @return JsonResponse
+     */
     public function store(StoreListRequest $request)
     {
         try {
@@ -91,6 +106,55 @@ class ListController extends Controller implements HasMiddleware
         }
     }
 
+    /**
+     * Update a list
+     *
+     * @param StoreListRequest $request
+     * @param int $id
+     *
+     * @return JsonResponse
+     */
+    public function update(StoreListRequest $request, int $id)
+    {
+        try {
+            if (empty($id)) {
+                throw new HttpException(400, "The ID field is required.");
+            }
+
+            $data = $request->validated();
+
+            $ret = $this->listService->updateList($id, $data);
+
+            if (empty($ret)) {
+                throw new HttpException(404, "The list with the specified ID was not found.");
+            }
+
+            return response()->json([
+                "message" => "The list updated successfully",
+                "updated_list" => $ret
+            ], 200);
+        } catch (\InvalidArgumentException $e) {
+
+            Log::error($e->getMessage());
+            return response()->json(['message' => "The processing of the arguments was unsuccessful."], 500);
+        } catch (HttpException $e) {
+
+            Log::error($e->getMessage());
+            return response()->json(['message' => $e->getMessage()], 500);
+        } catch (\Exception $e) {
+
+            Log::error($e->getMessage());
+            return response()->json(['message' => "An error occurred while processing the request."], 500);
+        }
+    }
+
+    /**
+     * Delete a list
+     *
+     * @param int $id
+     *
+     * @return JsonResponse
+     */
     public function destroy(int $id)
     {
         try {
@@ -102,8 +166,7 @@ class ListController extends Controller implements HasMiddleware
             $ret = $this->listService->deleteList($id);
 
             return response()->json([
-                "message" => "The list deleted successfully",
-                "deleted_list" => $ret
+                "message" => "The list was deleted successfully"
             ], 200);
         } catch (\InvalidArgumentException $e) {
 
