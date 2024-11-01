@@ -1,5 +1,10 @@
 # Todo-list CHANGELOG
 
+## 2024. 11. 02
+- Added `Category, Item and TodoList` factories
+- Removed `lists_items` migration
+- Added Feature tests for item endpoints
+
 ## 2024. 11. 01
 - Added `Item` model with `migrations`
 - Added item `services` and `repositories`

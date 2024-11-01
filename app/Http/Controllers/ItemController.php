@@ -38,14 +38,14 @@ class ItemController extends Controller implements HasMiddleware
 
         try {
 
-            if (empty($listId) && empty($itemId)) {
-                throw new HttpException(400, "The list ID or list ID and item ID fields are required.");
+            if (empty($listId)) {
+                throw new HttpException(400, "The list ID field are required.");
             }
 
             $ret = null;
             $message = "";
 
-            if (!empty($listId) && !empty($itemId)) {
+            if (!empty($itemId)) {
                 $ret = $this->itemService->getItemById($itemId);
 
                 if (empty($ret)) {
@@ -79,13 +79,6 @@ class ItemController extends Controller implements HasMiddleware
             Log::error($e->getMessage());
             return response()->json(['message' => "An error occurred while processing the request."], 500);
         }
-
-        $items = $this->itemService->getItems($id);
-
-        return response()->json([
-            'message' => 'The items fetched successfully',
-            'items' => $items
-        ], 200);
     }
 
     /**
