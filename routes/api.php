@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ListController;
 use Illuminate\Support\Facades\Route;
 
@@ -40,5 +41,17 @@ Route::group([
     Route::get('/{id?}', [ListController::class, 'index']);
     Route::put('/', [ListController::class, 'store']);
     Route::delete('/{id}', [ListController::class, 'destroy']);
+});
+//endregion
+
+//region Item
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'items'
+], function ($router) {
+    Route::get('/{listId?}/{itemId?}', [ItemController::class, 'index']);
+    Route::put('/', [ItemController::class, 'store']);
+    Route::patch('/{id}', [ItemController::class, 'update']);
+    Route::delete('/', [ItemController::class, 'destroy']);
 });
 //endregion
