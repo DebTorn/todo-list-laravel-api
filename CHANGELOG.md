@@ -2,6 +2,7 @@
 
 ## 2024. 11. 01
 - Added `Item` model with `migrations`
+- Added item `services` and `repositories`
 
 ## 2024. 10. 24
 ### @tbence
