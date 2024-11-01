@@ -1,5 +1,8 @@
 # Todo-list CHANGELOG
 
+## 2024. 11. 01
+- Added `Item` model with `migrations`
+
 ## 2024. 10. 24
 ### @tbence
 - Added `JWT authentication`
