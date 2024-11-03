@@ -5,23 +5,23 @@
 ---
 
 ## :rocket: Features :rocket:
-- **Category**:
+- **Category**: (Done)
     - :bulb: Add list category
     - :bulb: Remove list category
     - :bulb: Get all `category`
     - :bulb: Get a specific `category` by `id`
-- **List**:
+- **List**: (Done)
     - :bulb: Add `list` in a `category`
     - :bulb: Remove `list` from a `category`
     - :bulb: Update `list` in a `category`
     - :bulb: Get all `list` from a specific `category`
     - :bulb: Get a specific `list` by `id`
-- **Item**:
+- **Item**: (Done)
     - :bulb: Add `item` to a `list`
     - :bulb: Remove `item` from a `list`
     - :bulb: Get all `item` from a `list`
     - :bulb: Get a specific `item` by `id` from a specific `list`
-- **Sub-item**:
+- **Sub-item**: (In progress...)
     - :bulb: Add `sub-item` to an `item`
     - :bulb: Remove `sub-item` from an `item`
     - :bulb: Get all `sub-item` from an `item`
