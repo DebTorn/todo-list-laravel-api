@@ -45,11 +45,15 @@ class GetItemsTest extends TestCase
             ->bySpecificUser($this->user)
             ->create();
 
+        $this->assertModelExists($this->list);
+
         $this->items = Item::factory()
             ->forSpecificUser($this->user)
             ->forSpecificList($this->list)
             ->count(10)
             ->create();
+
+        $this->assertDatabaseCount('items', 10);
     }
 
     /**
