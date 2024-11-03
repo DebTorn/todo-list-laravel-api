@@ -8,6 +8,14 @@ use Illuminate\Support\Facades\Auth;
 
 class ListRepository implements IListRepository
 {
+
+    /**
+     * Create a new list
+     *
+     * @param array $data
+     *
+     * @return TodoList
+     */
     public function createList(array $data)
     {
         $insertedList = TodoList::create($data);
@@ -15,6 +23,13 @@ class ListRepository implements IListRepository
         return TodoList::where('id', $insertedList->id)->with(['category'])->first()->makeHidden('category_id');
     }
 
+    /**
+     * Update a list
+     *
+     * @param int $id
+     *
+     * @param array $data
+     */
     public function updateList(int $id, array $data)
     {
         $list = TodoList::where('id', $id)->where('user_id', Auth::id())->first();
@@ -27,6 +42,13 @@ class ListRepository implements IListRepository
         return $list;
     }
 
+    /**
+     * Delete a list
+     *
+     * @param int $id
+     *
+     * @return bool
+     */
     public function deleteList(int $id)
     {
 
@@ -39,11 +61,30 @@ class ListRepository implements IListRepository
         return TodoList::destroy($id);
     }
 
+    /**
+     * Find a list
+     *
+     * @param int $id
+     *
+     * @return TodoList
+     */
     public function findList(int $id)
     {
-        return TodoList::where('id', $id)->where('user_id', Auth::id())->first();
+        return TodoList::whereHas('category', function ($query) {
+            $query->whereNull('deleted_at');
+        })
+            ->where('id', $id)
+            ->where('user_id', Auth::id())
+            ->first();
     }
 
+    /**
+     * Find all lists
+     *
+     * @param int $categoryId
+     *
+     * @return TodoList
+     */
     public function findAllList(int $categoryId = null)
     {
         $lists = TodoList::where('user_id', Auth::id());
@@ -52,7 +93,12 @@ class ListRepository implements IListRepository
             $lists->where('category_id', $categoryId);
         }
 
-        $result = $lists->with(['category'])->get()->makeHidden('category_id');
+        $result = $lists->whereHas('category', function ($query) {
+            $query->whereNull('deleted_at');
+        })
+            ->with(['category'])
+            ->get()
+            ->makeHidden('category_id');
 
         return $result;
     }

@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\DeleteListRequest;
-use App\Http\Requests\StoreListRequest;
-use App\Services\Interfaces\IListService;
-use Illuminate\Http\Request;
+use App\Http\Requests\DeleteItemRequest;
+use App\Http\Requests\StoreItemRequest;
+use App\Http\Requests\UpdateItemRequest;
+use App\Services\Interfaces\IItemService;
+use Illuminate\Contracts\Cache\Store;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class ListController extends Controller implements HasMiddleware
+class ItemController extends Controller implements HasMiddleware
 {
     public static function middleware(): array
     {
@@ -22,43 +22,49 @@ class ListController extends Controller implements HasMiddleware
     }
 
     public function __construct(
-        private IListService $listService
+        private IItemService $itemService
     ) {}
 
     /**
-     * Get all lists or a list by id
+     * Get all items from a list by id
      *
      * @param Request $request
      * @param int $id
      *
      * @return JsonResponse
      */
-    public function index(Request $request, int $id = null)
+    public function index(int $listId = null, int $itemId = null)
     {
-        try {
-            $ret = null;
-            $categoryId = null;
-            $message = "";
 
-            if (!empty($request->query('category_id'))) {
-                $categoryId = $request->query('category_id');
+        try {
+
+            if (empty($listId)) {
+                throw new HttpException(400, "The list ID field are required.");
             }
 
-            if (!empty($id)) {
-                $ret = $this->listService->getList($id);
+            $ret = null;
+            $message = "";
+
+            if (!empty($itemId)) {
+                $ret = $this->itemService->getItemById($itemId);
 
                 if (empty($ret)) {
-                    throw new HttpException(404, "The list with the specified ID was not found.");
+                    throw new HttpException(404, "The item with the specified ID was not found.");
                 }
-                $message = "The list fetched successfully";
+                $message = "The item fetched successfully";
             } else {
-                $ret = $this->listService->getLists($categoryId);
-                $message = "The lists fetched successfully";
+                $ret = $this->itemService->getItems($listId);
+
+                if (count($ret) == 0) {
+                    throw new HttpException(404, "The items with the specified list ID were not found.");
+                }
+
+                $message = "The items fetched successfully";
             }
 
             return response()->json([
                 "message" => $message,
-                "lists" => $ret
+                "items" => $ret
             ], 200);
         } catch (\InvalidArgumentException $e) {
 
@@ -76,29 +82,31 @@ class ListController extends Controller implements HasMiddleware
     }
 
     /**
-     * Create a new list
+     * Create a new item
      *
-     * @param StoreListRequest $request
+     * @param StoreItemRequest $request
      *
      * @return JsonResponse
      */
-    public function store(StoreListRequest $request)
+    public function store(StoreItemRequest $request)
     {
         try {
             $data = $request->validated();
 
-            $data['user_id'] = Auth::id();
-
-            $ret = $this->listService->createList($data);
+            $ret = $this->itemService->createItem($data);
 
             return response()->json([
-                "message" => "The list was created successfully",
-                "inserted_list" => $ret
+                "message" => "The item was created successfully",
+                "item" => $ret
             ], 201);
         } catch (\InvalidArgumentException $e) {
 
             Log::error($e->getMessage());
             return response()->json(['message' => "The processing of the arguments was unsuccessful."], 500);
+        } catch (HttpException $e) {
+
+            Log::error($e->getMessage());
+            return response()->json(['message' => $e->getMessage()], $e->getStatusCode());
         } catch (\Exception $e) {
 
             Log::error($e->getMessage());
@@ -107,14 +115,14 @@ class ListController extends Controller implements HasMiddleware
     }
 
     /**
-     * Update a list
+     * Update an item
      *
-     * @param StoreListRequest $request
+     * @param StoreItemRequest $request
      * @param int $id
      *
      * @return JsonResponse
      */
-    public function update(StoreListRequest $request, int $id)
+    public function update(UpdateItemRequest $request, int $id)
     {
         try {
             if (empty($id)) {
@@ -123,15 +131,10 @@ class ListController extends Controller implements HasMiddleware
 
             $data = $request->validated();
 
-            $ret = $this->listService->updateList($id, $data);
-
-            if (empty($ret)) {
-                throw new HttpException(404, "The list with the specified ID was not found.");
-            }
+            $this->itemService->updateItem($id, $data);
 
             return response()->json([
-                "message" => "The list updated successfully",
-                "updated_list" => $ret
+                "message" => "The item was updated successfully"
             ], 200);
         } catch (\InvalidArgumentException $e) {
 
@@ -140,7 +143,7 @@ class ListController extends Controller implements HasMiddleware
         } catch (HttpException $e) {
 
             Log::error($e->getMessage());
-            return response()->json(['message' => $e->getMessage()], 500);
+            return response()->json(['message' => $e->getMessage()], $e->getStatusCode());
         } catch (\Exception $e) {
 
             Log::error($e->getMessage());
@@ -149,24 +152,37 @@ class ListController extends Controller implements HasMiddleware
     }
 
     /**
-     * Delete a list
-     *
-     * @param int $id
+     * Delete an item
      *
      * @return JsonResponse
      */
-    public function destroy(int $id)
+    public function destroy(DeleteItemRequest $request)
     {
         try {
+            $data = $request->validated();
+            $ret = null;
+            $message = "";
 
-            if (empty($id)) {
-                throw new HttpException(400, "The ID field is required.");
+            if (
+                isset($data['item_id']) &&
+                isset($data['list_id']) &&
+                !empty($data['item_id']) &&
+                !empty($data['list_id'])
+            ) {
+                $ret = $this->itemService->deleteItem($data['item_id']);
+
+                if (empty($ret)) {
+                    throw new HttpException(404, "The item with the specified ID was not found.");
+                }
+
+                $message = "The item was deleted successfully";
+            } else {
+                $ret = $this->itemService->deleteAllItem($data['list_id']);
+                $message = "The items deleted successfully";
             }
 
-            $ret = $this->listService->deleteList($id);
-
             return response()->json([
-                "message" => "The list was deleted successfully"
+                "message" => $message
             ], 200);
         } catch (\InvalidArgumentException $e) {
 
@@ -175,7 +191,7 @@ class ListController extends Controller implements HasMiddleware
         } catch (HttpException $e) {
 
             Log::error($e->getMessage());
-            return response()->json(['message' => $e->getMessage()], 500);
+            return response()->json(['message' => $e->getMessage()], $e->getStatusCode());
         } catch (\Exception $e) {
 
             Log::error($e->getMessage());

@@ -1,5 +1,22 @@
 # Todo-list CHANGELOG
 
+## 2024. 11. 03
+- Refactor `title` in `TodoListFactory`
+- Added `item` validation check to `ItemService -> updateItem` method
+
+## 2024. 11. 02
+- Added `Category, Item and TodoList` factories
+- Removed `lists_items` migration
+- Added Feature tests for item endpoints
+
+## 2024. 11. 01
+- Added `Item` model with `migrations`
+- Added item `services` and `repositories`
+- Added `ItemController`, `routes` and `requests`
+- Bind new `services` and `repositories`
+- Refactor `ListController`
+- Refactor `CategoryRepository` and `ListRepository`
+
 ## 2024. 10. 24
 ### @tbence
 - Added `JWT authentication`
