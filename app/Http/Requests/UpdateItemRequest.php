@@ -34,6 +34,14 @@ class UpdateItemRequest extends FormRequest
                     $query->whereNull('deleted_at');
                 }),
             ],
+            "id" => [
+                "required",
+                "integer",
+                Rule::exists('items', 'id')->where(function ($query) {
+                    $query->where('list_id', $this->list_id);
+                    $query->whereNull('deleted_at');
+                }),
+            ],
             'completed' => 'boolean|nullable',
             'background_color' => 'string|nullable',
             'background_id' => 'integer|nullable' # TODO: Add exists rule

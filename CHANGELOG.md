@@ -3,6 +3,8 @@
 ## 2024. 11. 03
 - Refactor `title` in `TodoListFactory`
 - Added `item` validation check to `ItemService -> updateItem` method
+- Created `Items` section in the readme
+- Refactor `update` method in `ItemController`
 
 ## 2024. 11. 02
 - Added `Category, Item and TodoList` factories
