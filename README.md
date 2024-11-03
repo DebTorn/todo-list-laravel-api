@@ -410,7 +410,7 @@ Returns all lists of the logged in user
 #### Insert new list
 Insert new list to the logged in user
 
-*Type*: **PUT**
+*Type*: **POST**
 *URI*: `/api/lists`
 *Request format:* `JSON`
 *Response format*: `JSON`
@@ -463,7 +463,7 @@ Deletes a list of the logged in user
 *URL parameters*:
 | Parameter | Type | Description |
 | --------- | ---- | ----------- |
-| id | integer (optional) | ID of the list |
+| id | integer | ID of the list |
 
 **List deleted succesfully**
 *Request URI*: `/api/lists/1`
@@ -483,5 +483,290 @@ Deletes a list of the logged in user
 ```json
 {
 	"message": "The list with the specified ID was not found."
+}
+```
+
+---
+### Items
+
+#### Get Items
+Returns all items of a specific list
+
+*Type*: **GET**
+*URI*: `/api/items/{list_id}/{item_id?}`
+*Response format*: `JSON`
+*URL parameters*:
+| Parameter | Type | Description |
+| --------- | ---- | ----------- |
+| list_id | integer | The id of the list where you want to return user items |
+| item_id | integer (optional) | The id of the item where you want to return user items |
+
+**Items found**
+*Request URI*: `/api/items/17`
+*Response Status*: `200`
+*Response Body*: 
+```json
+{
+	"message": "The items fetched successfully",
+	"items": [
+		{
+			"id": 4,
+			"list_id": 17,
+			"title": "UPDATED Test list title",
+			"description": "UPDATED Test list description",
+			"completed": 0,
+			"completed_at": null,
+			"background_color": null,
+			"background_id": null
+		},
+		{
+			"id": 5,
+			"list_id": 17,
+			"title": "Test list title",
+			"description": "Test list description",
+			"completed": 0,
+			"completed_at": null,
+			"background_color": null,
+			"background_id": null
+		},
+		{
+			"id": 6,
+			"list_id": 17,
+			"title": "Test list title",
+			"description": "Test list description",
+			"completed": 0,
+			"completed_at": null,
+			"background_color": null,
+			"background_id": null
+		},
+	]
+}
+```
+**Items not found with the specified list_id**
+*Request URI*: `/api/items/11`
+*Response Status*: `404`
+*Response Body*: 
+```json
+{
+	"message": "The items with the specified list ID were not found."
+}
+```
+
+**Item not found**
+*Request URI*: `/api/items/17/1`
+*Response Status*: `404`
+*Response Body*: 
+```json
+{
+	"message": "The item with the specified ID was not found."
+}
+```
+
+#### Insert new item
+Insert new item to a specific list to the logged in user
+
+*Type*: **POST**
+*URI*: `/api/items`
+*Request format:* `JSON`
+*Response format*: `JSON`
+*Request body:*
+```json
+{
+	"title": "<string>",
+	"description": "<string>",
+    "completed": <bool> - OPTIONAL,
+	"list_id": <integer>
+}
+```
+
+
+**Item inserted succesfully**
+*Request URI*: `/api/items`
+*Response Status*: `201`
+*Request Body*:
+```json
+{
+	"title": "asd",
+	"description": "Test description",
+	"list_id": 17
+}
+```
+*Response Body*: 
+```json
+{
+	"message": "The item was created successfully",
+	"item": {
+		"title": "asd",
+		"description": "Test description",
+		"list_id": 17,
+		"id": 1
+	}
+}
+```
+
+#### Update existing item
+Update an existing item from a list
+
+*Type*: **PATCH**
+*URI*: `/api/items`
+*Response format*: `JSON`
+
+**Item updated successfully**
+*Request URI*: `/api/items`
+*Response Status*: `200`
+*Request body*:
+```json
+{
+	"title": "UPDATED Test list title",
+	"description": "UPDATED Test list description",
+	"list_id": 17,
+	"id": 5
+}
+```
+*Response body*:
+```json
+{
+	"message": "The item was updated successfully"
+}
+```
+
+**Item not found**
+*Request URI*: `api/items`
+*Response Status*: `422`
+*Request body*:
+```json
+{
+	"title": "UPDATED Test list title",
+	"description": "UPDATED Test list description",
+	"list_id": 17,
+	"id": 100
+}
+```
+*Response body*:
+```json
+{
+	"message": "The selected id is invalid.",
+	"errors": {
+		"id": [
+			"The selected id is invalid."
+		]
+	}
+}
+```
+
+**List not found**
+*Request URI*: `api/items`
+*Response Status*: `422`
+*Request body*:
+```json
+{
+	"title": "UPDATED Test list title",
+	"description": "UPDATED Test list description",
+	"list_id": 100,
+	"id": 5
+}
+```
+*Response body*:
+```json
+{
+	"message": "The selected list id is invalid. (and 1 more error)",
+	"errors": {
+		"list_id": [
+			"The selected list id is invalid."
+		],
+		"id": [
+			"The selected id is invalid."
+		]
+	}
+}
+```
+
+#### Delete existing item
+Deletes an item or all items from a list
+
+*Type*: **DELETE**
+*URI*: `/api/items`
+*Request format:* `JSON`
+*Response format*: `JSON`
+
+**Delete an existing item**
+*Request URI*: `/api/items`
+*Response Status*: `200`
+*Request body*:
+```json
+{
+	"list_id": 17,
+	"item_id": 5
+}
+```
+
+*Response body*:
+```json
+{
+	"message": "The item was deleted successfully"
+}
+```
+
+**Delete all existing items from a list**
+*Request URI*: `/api/items`
+*Response Status*: `200`
+*Request body*:
+```json
+{
+	"list_id": 17
+}
+```
+
+*Response body*:
+```json
+{
+	"message": "The items deleted successfully"
+}
+```
+
+**List id not found**
+*Request URI*: `/api/items`
+*Response Status*: `422`
+
+*Request body*:
+```json
+{
+	"list_id": 100
+}
+```
+
+*Response body*:
+```json
+{
+	"message": "The selected list id is invalid.",
+	"errors": {
+		"list_id": [
+			"The selected list id is invalid."
+		]
+	}
+}
+```
+
+**Item id not found**
+*Request URI*: `/api/items`
+*Response Status*: `422`
+
+*Request body*:
+```json
+{
+	"list_id": 17,
+    "item_id": 100
+}
+```
+
+*Response body*:
+```json
+{
+	"message": "The selected item id is invalid.",
+	"errors": {
+		"list_id": [
+			"The selected item id is invalid."
+		]
+	}
 }
 ```

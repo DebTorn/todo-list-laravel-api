@@ -117,21 +117,16 @@ class ItemController extends Controller implements HasMiddleware
     /**
      * Update an item
      *
-     * @param StoreItemRequest $request
-     * @param int $id
+     * @param UpdateItemRequest $request
      *
      * @return JsonResponse
      */
-    public function update(UpdateItemRequest $request, int $id)
+    public function update(UpdateItemRequest $request)
     {
         try {
-            if (empty($id)) {
-                throw new HttpException(400, "The ID field is required.");
-            }
-
             $data = $request->validated();
 
-            $this->itemService->updateItem($id, $data);
+            $this->itemService->updateItem($data['id'], $data);
 
             return response()->json([
                 "message" => "The item was updated successfully"
