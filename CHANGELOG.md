@@ -1,5 +1,9 @@
 # Todo-list CHANGELOG
 
+## 2024. 11. 03
+- Refactor `title` in `TodoListFactory`
+- Added `item` validation check to `ItemService -> updateItem` method
+
 ## 2024. 11. 02
 - Added `Category, Item and TodoList` factories
 - Removed `lists_items` migration

@@ -82,6 +82,12 @@ class ItemService implements InterfaceItemService
             throw new \InvalidArgumentException('The id parameter is required.');
         }
 
+        $item = $this->itemRepository->findItem($id);
+
+        if (!$item) {
+            throw new HttpException(404, 'The item does not exist.');
+        }
+
         if (empty($data)) {
             throw new \InvalidArgumentException('The data parameter is required.');
         }
